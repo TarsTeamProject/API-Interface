@@ -3,9 +3,9 @@ const status = require("../tars/StatusCodeTars").RentHouse.StatusCode;
 const statusStirng = {};
 
 statusStirng._getErrorMsg = function (code) {
-    switch(code) {
+    switch (code) {
         case status.SUCCESS:
-            return "";
+            return "操作成功";
         case status.INTERNAL_ERROR:
             return "服务器内部错误";
         case status.USER_NOT_EXSIT:
@@ -19,11 +19,17 @@ statusStirng._getErrorMsg = function (code) {
     }
 };
 
-statusStirng.response = function (code, body) {
-    if (code===status.SUCCESS) {
-        return this._body(code, body);
+statusStirng.response = function (recStatus, body) {
+    // default Error obj;
+    if (typeof recStatus !== 'number') {
+        return this._body(status.INTERNAL_ERROR, recStatus.message ?? this._getErrorMsg(status.INTERNAL_ERROR));
     }
-    return this._body(code, this._getErrorMsg(code));
+    // success status
+    if (parseInt(recStatus) === status.SUCCESS) {
+        return this._body(recStatus, body ?? this._getErrorMsg(recStatus));
+    }
+    // other error status.
+    return this._body(recStatus, this._getErrorMsg(recStatus));
 };
 
 statusStirng._body = function (status, body) {

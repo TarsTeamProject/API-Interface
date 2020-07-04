@@ -1,3 +1,3 @@
-const Names = {
-    'User': '',
+module.exports = {
+    UserServiceObjName: 'LifeService.UserService.UserServiceObj',
 }
