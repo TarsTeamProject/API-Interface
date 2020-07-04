@@ -1,12 +1,12 @@
 const sessionCheck = {};
 
 sessionCheck.needLogin = async function (ctx, next) {
-    console.log("isLogin?");
+    // console.log("isLogin?");
     await next();
 }
 
 sessionCheck.loginBefore = async function (ctx, next) {
-    console.log("loginBefore");
+    // console.log("loginBefore");
     await next();
 }
 

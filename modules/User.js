@@ -49,7 +49,7 @@ const UsersModule = {
                     throw status;
                 }
                 // set session;
-                console.log(res, status);
+                // console.log(res, status);
                 ctx.session.user = res;
             }
         } catch (e) {
