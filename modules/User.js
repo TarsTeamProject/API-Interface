@@ -1,13 +1,9 @@
-const Tars = require("@tars/rpc").client;
-
 const StatusCode = require('../tars/StatusCodeTars').RentHouse.StatusCode;
-const UserServiceProxy = require('../tars/UserServiceProxy').RentHouse.UserServiceProxy;
-const { UserServiceObjName } = require("../config/objNames");
-const User = require('../tars/DataBaseServiceTars').RentHouse.User;
-
 const Methods = require("../tools/methods");
 const statusString = require("../tools/statusString");
 const statusStirng = require("../tools/statusString");
+const User = require('../tars/DataBaseServiceTars').RentHouse.User;
+const { UserServiceProxy }  = require("../proxy");
 
 const UsersModule = {
 
@@ -34,6 +30,10 @@ const UsersModule = {
 
     // for login
     login: async (ctx) => {
+        // paramet check 
+        if (ctx.request.body.name == undefined || ctx.request.body.password == undefined) {
+            throw new Error("参数不正确");
+        }
         let status = null, res = null;
         try {
             if (ctx.session.user !== undefined) {
@@ -42,8 +42,7 @@ const UsersModule = {
                 res = "已登陆";
             } else {
                 // session doesn't exist
-                const prx = Tars.stringToProxy(UserServiceProxy, UserServiceObjName);
-                const loginRes = await prx.login();
+                const loginRes = await UserServiceProxy.login(ctx.request.body.name, ctx.request.body.password);
                 res = loginRes.response.arguments.loginUser.toObject();
                 status = loginRes.response.arguments.status;
                 if (parseInt(status) !== StatusCode.SUCCESS) {
@@ -52,14 +51,6 @@ const UsersModule = {
                 // set session;
                 console.log(res, status);
                 ctx.session.user = res;
-
-                // // for test without TARS.
-                // status = StatusCode.SUCCESS;
-                // res = {
-                //     userId: 1,
-                //     name: "samchevia"
-                // }
-                // ctx.session.user = res;
             }
         } catch (e) {
             status = e;
