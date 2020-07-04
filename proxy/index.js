@@ -1,8 +1,8 @@
 const Tars = require("@tars/rpc").client;
 const USProxy = require('../tars/UserServiceProxy').RentHouse.UserServiceProxy;
-const { UserServiceObjName } = require("../config/objNames");
+const { UserService } = require("../config/objNames");
 
-const UserServiceProxy = Tars.stringToProxy(USProxy, UserServiceObjName);
+const UserServiceProxy = Tars.stringToProxy(USProxy, UserService);
 
 module.exports = {
     UserServiceProxy
