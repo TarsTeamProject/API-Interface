@@ -26,7 +26,7 @@ statusStirng.response = function (recStatus, body) {
     }
     // success status
     if (parseInt(recStatus) === status.SUCCESS) {
-        return this._body(recStatus, body ?? this._getErrorMsg(recStatus));
+        return this._body(recStatus, body || this._getErrorMsg(recStatus));
     }
     // other error status.
     return this._body(recStatus, this._getErrorMsg(recStatus));
