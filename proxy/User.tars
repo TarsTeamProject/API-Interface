@@ -1,9 +1,0 @@
-#include "DataBase.tars"
-#include "ErrorCode.tars"
-
-module RentHouse
-{
-    interface UserService {
-        int login(string name, string password, out User loginUser, out ErrorCode error);
-    };
-};

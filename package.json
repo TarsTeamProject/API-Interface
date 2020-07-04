@@ -4,7 +4,7 @@
   "description": "api-interface based on Koa",
   "main": "server.js",
   "scripts": {
-    "start": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "@tars/stream": "^2.0.3",
     "@tars/utils": "^2.0.1",
     "koa": "^2.13.0",
-    "koa-bodyparser": "^4.3.0",
+    "koa-bodyparser": "^3.2.0",
     "koa-router": "^9.1.0"
   }
 }
