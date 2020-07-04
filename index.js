@@ -22,5 +22,5 @@ app.host = hostname;
 app.port = port;
 app.keys = ['BF68FEB7A66E0E2B8E063A7C234E28D5EACEBC6C', '1C1A2B0D1542E709105825568565F890DA771B07'];
 const server = app.listen(app.port, app.host, () => {
-    console.log(`API gateway listening on ${server.address().address}:${server.address().port}`);
+    // console.log(`API gateway listening on ${server.address().address}:${server.address().port}`);
 })

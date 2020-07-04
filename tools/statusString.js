@@ -22,7 +22,7 @@ statusStirng._getErrorMsg = function (code) {
 statusStirng.response = function (recStatus, body) {
     // default Error obj;
     if (typeof recStatus !== 'number') {
-        return this._body(status.INTERNAL_ERROR, recStatus.message ?? this._getErrorMsg(status.INTERNAL_ERROR));
+        return this._body(status.INTERNAL_ERROR, recStatus.message || this._getErrorMsg(status.INTERNAL_ERROR));
     }
     // success status
     if (parseInt(recStatus) === status.SUCCESS) {
