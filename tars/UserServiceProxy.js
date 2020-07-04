@@ -132,6 +132,7 @@ var __RentHouse_UserService$login$PD = function (data) {
 };
 
 var __RentHouse_UserService$login$ER = function (data) {
+    // console.log(data);
     throw _makeError(data, "Call UserService::login failed");
 };
 
