@@ -1,4 +1,5 @@
 const User = require('../modules/User');
+const { UserServiceProxy } = require('../proxy');
 
 const apis = [
     // Test
@@ -6,7 +7,8 @@ const apis = [
     ['post', '/test', User.test],
     // User
     ['post', '/login', User.login],
-    ['get', '/logout', User.logout]
+    ['get', '/logout', User.logout],
+    ['post', '/register', User.register]
 ];
 
 module.exports = apis;

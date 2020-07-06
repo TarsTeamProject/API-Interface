@@ -14,6 +14,8 @@ statusStirng._getErrorMsg = function (code) {
             return "用户已存在";
         case status.WRONG_PW_OR_NAME:
             return "用户名或密码错误";
+        case 403:
+            return "参数不正确"
         default:
             return "未知错误";
     }

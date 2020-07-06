@@ -68,7 +68,11 @@ var __RentHouse_UserService$login$IF = {
         "class" : "string",
         "direction" : "in"
     }, {
-        "name" : "loginUser",
+        "name" : "user_id",
+        "class" : "int32",
+        "direction" : "out"
+    }, {
+        "name" : "user",
         "class" : "RentHouse.User",
         "direction" : "out"
     }, {
@@ -94,8 +98,9 @@ var __RentHouse_UserService$login$ID = function (data) {
                 "costtime" : data.request.costtime,
                 "return" : is.readInt32(0, true, 0),
                 "arguments" : {
-                    "loginUser" : is.readStruct(3, true, _TARS_MODULE_A_.RentHouse.User),
-                    "status" : is.readInt32(4, true, _TARS_MODULE_B_.RentHouse.StatusCode.SUCCESS)
+                    "user_id" : is.readInt32(3, true, 0),
+                    "user" : is.readStruct(4, true, _TARS_MODULE_A_.RentHouse.User),
+                    "status" : is.readInt32(5, true, _TARS_MODULE_B_.RentHouse.StatusCode.SUCCESS)
                 }
             }
         };
@@ -121,7 +126,8 @@ var __RentHouse_UserService$login$PD = function (data) {
                 "costtime" : data.request.costtime,
                 "return" : tup.readInt32("", 0),
                 "arguments" : {
-                    "loginUser" : tup.readStruct("loginUser", _TARS_MODULE_A_.RentHouse.User),
+                    "user_id" : tup.readInt32("user_id"),
+                    "user" : tup.readStruct("user", _TARS_MODULE_A_.RentHouse.User),
                     "status" : tup.readInt32("status")
                 }
             }
@@ -132,7 +138,6 @@ var __RentHouse_UserService$login$PD = function (data) {
 };
 
 var __RentHouse_UserService$login$ER = function (data) {
-    // console.log(data);
     throw _makeError(data, "Call UserService::login failed");
 };
 
@@ -145,6 +150,113 @@ RentHouse.UserServiceProxy.prototype.login = function (name, password) {
     }
 };
 RentHouse.UserServiceProxy.login = __RentHouse_UserService$login$IF;
+
+var __RentHouse_UserService$register$IF = {
+    "name" : "register",
+    "return" : "int32",
+    "arguments" : [{
+        "name" : "name",
+        "class" : "string",
+        "direction" : "in"
+    }, {
+        "name" : "password",
+        "class" : "string",
+        "direction" : "in"
+    }, {
+        "name" : "gender",
+        "class" : "string",
+        "direction" : "in"
+    }, {
+        "name" : "avatar_url",
+        "class" : "string",
+        "direction" : "in"
+    }, {
+        "name" : "user_id",
+        "class" : "int32",
+        "direction" : "out"
+    }, {
+        "name" : "user",
+        "class" : "RentHouse.User",
+        "direction" : "out"
+    }, {
+        "name" : "status",
+        "class" : "int32",
+        "direction" : "out"
+    }]
+};
+
+var __RentHouse_UserService$register$IE = function (name, password, gender, avatar_url) {
+    var os = new TarsStream.TarsOutputStream();
+    os.writeString(1, name);
+    os.writeString(2, password);
+    os.writeString(3, gender);
+    os.writeString(4, avatar_url);
+    return os.getBinBuffer();
+};
+
+var __RentHouse_UserService$register$ID = function (data) {
+    try {
+        var is = new TarsStream.TarsInputStream(data.response.sBuffer);
+        return {
+            "request" : data.request,
+            "response" : {
+                "costtime" : data.request.costtime,
+                "return" : is.readInt32(0, true, 0),
+                "arguments" : {
+                    "user_id" : is.readInt32(5, true, 0),
+                    "user" : is.readStruct(6, true, _TARS_MODULE_A_.RentHouse.User),
+                    "status" : is.readInt32(7, true, _TARS_MODULE_B_.RentHouse.StatusCode.SUCCESS)
+                }
+            }
+        };
+    } catch (e) {
+        throw _makeError(data, e.message, TarsError.CLIENT.DECODE_ERROR);
+    }
+};
+
+var __RentHouse_UserService$register$PE = function (name, password, gender, avatar_url, __$PROTOCOL$VERSION) {
+    var tup = new TarsStream.UniAttribute();
+    tup.tupVersion = __$PROTOCOL$VERSION;
+    tup.writeString("name", name);
+    tup.writeString("password", password);
+    tup.writeString("gender", gender);
+    tup.writeString("avatar_url", avatar_url);
+    return tup;
+};
+
+var __RentHouse_UserService$register$PD = function (data) {
+    try {
+        var tup = data.response.tup;
+        return {
+            "request" : data.request,
+            "response" : {
+                "costtime" : data.request.costtime,
+                "return" : tup.readInt32("", 0),
+                "arguments" : {
+                    "user_id" : tup.readInt32("user_id"),
+                    "user" : tup.readStruct("user", _TARS_MODULE_A_.RentHouse.User),
+                    "status" : tup.readInt32("status")
+                }
+            }
+        };
+    } catch (e) {
+        throw _makeError(data, e.message, TarsError.CLIENT.DECODE_ERROR);
+    }
+};
+
+var __RentHouse_UserService$register$ER = function (data) {
+    throw _makeError(data, "Call UserService::register failed");
+};
+
+RentHouse.UserServiceProxy.prototype.register = function (name, password, gender, avatar_url) {
+    var version = this._worker.version;
+    if (version === TarsStream.Tup.TUP_SIMPLE || version === TarsStream.Tup.TUP_COMPLEX) {
+        return this._worker.tup_invoke("register", __RentHouse_UserService$register$PE(name, password, gender, avatar_url, version), arguments[arguments.length - 1], __RentHouse_UserService$register$IF).then(__RentHouse_UserService$register$PD, __RentHouse_UserService$register$ER);
+    } else {
+        return this._worker.tars_invoke("register", __RentHouse_UserService$register$IE(name, password, gender, avatar_url), arguments[arguments.length - 1], __RentHouse_UserService$register$IF).then(__RentHouse_UserService$register$ID, __RentHouse_UserService$register$ER);
+    }
+};
+RentHouse.UserServiceProxy.register = __RentHouse_UserService$register$IF;
 
 
 

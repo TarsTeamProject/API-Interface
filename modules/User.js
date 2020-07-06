@@ -32,26 +32,61 @@ const UsersModule = {
 
     // for login
     login: async (ctx) => {
-        // paramet check 
-        if (ctx.request.body.name == undefined || ctx.request.body.password == undefined) {
-            throw new Error("参数不正确");
-        }
         let status = null, res = null;
         try {
+            // paramet check 
+            const name = ctx.request.body.name || undefined,
+                password = ctx.request.body.password || undefined;
+            if (!name || !password) {
+                throw 403;
+            }
             if (ctx.session.user !== undefined) {
                 // session exist
                 status = StatusCode.SUCCESS;
                 res = "已登陆";
             } else {
                 // session doesn't exist
-                const loginRes = await UserServiceProxy.login(ctx.request.body.name, ctx.request.body.password);
-                res = loginRes.response.arguments.loginUser.toObject();
+                let user_id = null, user = null;
+                const loginRes = (await UserServiceProxy.login(name, password));
+                user_id = loginRes.response.arguments.user_id;
+                user = loginRes.response.arguments.user.toObject();
                 status = loginRes.response.arguments.status;
                 if (parseInt(status) !== StatusCode.SUCCESS) {
                     throw status;
                 }
-                ctx.session.user = res;
+                ctx.session.user = { user_id, ...user };
+                res = ctx.session.user;
             }
+        } catch (e) {
+            logger.error(e);
+            status = e;
+            res = null;
+        } finally {
+            ctx.body = statusString.response(status, res);
+        }
+    },
+
+    register: async (ctx) => {
+        let status = null, res = null;
+        try {
+            // paramet check 
+            const name = ctx.request.body.name || undefined,
+                password = ctx.request.body.password || undefined,
+                gender = ctx.request.body.gender || undefined,
+                avatarUrl = ctx.request.body.avatarUrl || undefined;
+            if (!name || !password || !gender || !avatarUrl) {
+                throw 403;
+            }
+            let user_id = null, user = null;
+            const registerRes = await UserServiceProxy.register(name, password, gender, avatarUrl);
+            user_id = registerRes.response.arguments.user_id;
+            user = registerRes.response.arguments.user.toObject();
+            status = registerRes.response.arguments.status;
+            if (parseInt(status) !== StatusCode.SUCCESS) {
+                throw status;
+            }
+            ctx.session.user = { user_id, ...user };
+            res = ctx.session.user;
         } catch (e) {
             logger.error(e);
             status = e;
