@@ -1,0 +1,31 @@
+{
+  "name": "api-interface",
+  "version": "1.0.0",
+  "description": "api-interface based on Koa",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChenhuaFan/API-Interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChenhuaFan/API-Interface/issues"
+  },
+  "homepage": "https://github.com/ChenhuaFan/API-Interface#readme",
+  "dependencies": {
+    "@tars/config": "^2.0.5",
+    "@tars/logs": "^2.1.1",
+    "@tars/rpc": "^2.0.14",
+    "@tars/stream": "^2.0.3",
+    "@tars/utils": "^2.0.1",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^3.2.0",
+    "koa-router": "^9.1.0",
+    "koa-session": "^6.0.0"
+  }
+}
